@@ -1,4 +1,5 @@
 Feature:User creates a line of credit
+
   Background:
     Given user on home page
     When user click on new credit line link
@@ -47,6 +48,36 @@ Feature:User creates a line of credit
     When user pay back "Payment" "200" on day "15"
     And  user choose operation "Draw" and puts  amount "100" on day "25"
     And users thirty days total payoff amount would be "Total Payoff at 30 days: $411.99"
+
+  Scenario Outline: user user tries to break the system
+
+    When user enter APR "<APR>" into input box
+    And user enter "<amount>" of credit limit into input box
+    When user clicks on new line of credit button
+    Then user sees error "<message>" message
+    Examples:
+      | APR      | amount    | message                                           |
+      | -35      | 1000      | Apr must be greater than or equal to 0.0          |
+      | -1000    | 1000      | Apr must be greater than or equal to 0.0          |
+      | -99      | 1000      | Apr must be greater than or equal to 0.0          |
+      | 23       | -1000     | Credit limit must be greater than or equal to 0.0 |
+      | @        | 1000      | Apr is not a number                               |
+      | hgfhs    | 1000      | Apr is not a number                               |
+      | 1hgfhs   | 1000      | Apr is not a number                               |
+      | 1hgfhs2  | 1000      | Apr is not a number                               |
+      | 35       | 1000ef    | Credit limit is not a number                      |
+      | 35       | ewr1000ef | Credit limit is not a number                      |
+      | 35       | ewr1000ef | Credit limit is not a number                      |
+      | 35       | @         | Credit limit is not a number                      |
+      | 4.87e+35 | 10000o    | Credit limit is not a number                      |
+      | 4.87e+45 | 10000o    | Credit limit is not a number                      |
+      | 4.87e+90 | 10000o    | Credit limit is not a number                      |
+      | 35       | 4.67e+56  | Credit limit is not a number                      |
+      | 35       | 4.67e+96  | Credit limit is not a number                      |
+      | 35       | 3.67e+67  | Credit limit is not a number                      |
+
+
+
 
 
 

@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 
 
 public class NewLineOfCredit {
-    SoftAssertions softAssertions=new SoftAssertions();
+    SoftAssertions softAssertions = new SoftAssertions();
 
     HomePage homePage = new HomePage();
     NewLineOfCreditPage newLineOfCreditPage = new NewLineOfCreditPage();
@@ -84,6 +84,7 @@ public class NewLineOfCredit {
         String actual = createdNewCreditLinePage.getCreditAvailableInfo();
         softAssertions.assertThat(actual).isEqualTo(expected);
         BrowserUtils.takeScreenshot();
+
         logger.error("credit line does not display correct");
 
 
@@ -91,12 +92,13 @@ public class NewLineOfCredit {
 
     @And("user sees the correct {string} date")
     public void userSeesTheCorrectDate(String expected) {
-        LocalDate now=LocalDate.now();
-        DateTimeFormatter d= DateTimeFormatter.ofPattern("MMMM dd, yyyy");
-        expected+=now.format(d);
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter d = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
+        expected += now.format(d);
         String actual = createdNewCreditLinePage.getOpenDateInfo();
         softAssertions.assertThat(actual).isEqualTo(expected);
         BrowserUtils.takeScreenshot();
+
         logger.error("The date has a bug, it set to different time zone");
     }
 
@@ -140,7 +142,7 @@ public class NewLineOfCredit {
     }
 
     @And("users thirty days total payoff amount would be {string}")
-    public void usersDaysTotalPayoffAmountWouldBe( String interest) {
+    public void usersDaysTotalPayoffAmountWouldBe(String interest) {
 
 
         String actual = createdNewCreditLinePage.getTotalPayoffInfo();
@@ -155,6 +157,17 @@ public class NewLineOfCredit {
     public void userPayBackOnDay(String type, String amount, String day) {
 
         createdNewCreditLinePage.moneyOperation(type, amount, day);
+    }
+
+    @Then("user sees error {string} message")
+    public void userSeesErrorMessage(String message) {
+
+
+        String actual = newLineOfCreditPage.getErrorMessage();
+        Assert.assertEquals(message, actual);
+        BrowserUtils.takeScreenshot();
+
+
     }
 }
 

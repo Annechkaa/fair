@@ -23,33 +23,28 @@ public class NewLineOfCreditPage extends BasePage {
     @FindBy(linkText = "Back")
     private WebElement backLink;
 
-
-
-
-
-
-
+    @FindBy(xpath = "//li")
+    private WebElement errorMessage;
 
 
     public void enterAPR(String APR) throws Exception {
-      wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@id='line_of_credit_apr']")));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@id='line_of_credit_apr']")));
         aprInputBox.sendKeys(APR);
     }
-    public void enterAmount(String amount){
+
+    public void enterAmount(String amount) {
         creditLimitInputBox.sendKeys(amount);
     }
 
-    public void clickOnCreateLineOfCredit (){
-       createLineOfCreditButton.click();
+    public void clickOnCreateLineOfCredit() {
+        createLineOfCreditButton.click();
     }
 
+    public String getErrorMessage() {
 
-
-
-
-
-
-
+        wait.until(ExpectedConditions.visibilityOf(errorMessage));
+        return errorMessage.getText();
+    }
 
 
 }

@@ -69,6 +69,7 @@ public class CreatedNewCreditLinePage extends BasePage {
     }
 
     public String getCreditAvailableInfo() {
+        wait.until(ExpectedConditions.visibilityOf(creditAvailableInfo));
 
         return creditAvailableInfo.getText();
     }
