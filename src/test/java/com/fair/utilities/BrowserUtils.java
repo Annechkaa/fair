@@ -1,6 +1,6 @@
 package com.fair.utilities;
 
-import io.cucumber.java8.Scenario;
+
 import io.cucumber.plugin.event.Node;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;

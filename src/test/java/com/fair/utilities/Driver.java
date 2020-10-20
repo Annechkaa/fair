@@ -7,13 +7,17 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class Driver {
+
+
     private static WebDriver driver;
-    private Driver(){ }
+
+    private Driver() {
+    }
 
     public static WebDriver getDriver() {
-        String browser=ConfigurationReader.getProperty("browser");
-        if(driver==null){
-            switch (browser){
+        String browser = ConfigurationReader.getProperty("browser");
+        if (driver == null) {
+            switch (browser) {
                 case "chrome":
                 case "CHROME":
                 case "chrome-browser":
@@ -21,6 +25,7 @@ public class Driver {
                     WebDriverManager.chromedriver().setup();
                     driver = new ChromeDriver();
                     break;
+
                 case "firefox":
                 case "FIREFOX":
                 case "firefox-browser":
@@ -31,9 +36,14 @@ public class Driver {
                 default:
                     throw new RuntimeException("Wrong browser name!");
             }
-
-
         }
         return driver;
+    }
+
+    public static void closeDriver() {
+        if (driver != null) {
+            driver.quit();
+            driver = null;
+        }
     }
 }
