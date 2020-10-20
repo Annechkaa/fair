@@ -47,12 +47,17 @@ public class NewLineOfCredit {
     public void userEnterAPRIntoInputBox(String APR) throws Exception {
 
         newLineOfCreditPage.enterAPR(APR);
+        logger.error("When you enter a any number with fallowing letter e and then + operator and " +
+                "again number the system cannot handle it and allows to create new line");
     }
 
 
     @And("user enter {string} of credit limit into input box")
     public void userEnterOfCreditLimitIntoInputBox(String amount) {
         newLineOfCreditPage.enterAmount(amount);
+        logger.error("When you enter a any number with fallowing letter e and then + operator and " +
+                "again number the system cannot handle it and allows to create new line");
+
     }
 
 
@@ -76,6 +81,7 @@ public class NewLineOfCredit {
 
         String actual = createdNewCreditLinePage.getAPRInfo();
         Assert.assertEquals(expected, actual);
+
     }
 
     @And("user sees credit available  {string} is displayed")
@@ -85,7 +91,8 @@ public class NewLineOfCredit {
         softAssertions.assertThat(actual).isEqualTo(expected);
         BrowserUtils.takeScreenshot();
 
-        logger.error("credit line does not display correct");
+        logger.error("Credit line does not display correct when you just create a new credit line, " +
+                "but it works properly when you apply draw or payment operations and save them");
 
 
     }
@@ -99,7 +106,7 @@ public class NewLineOfCredit {
         softAssertions.assertThat(actual).isEqualTo(expected);
         BrowserUtils.takeScreenshot();
 
-        logger.error("The date has a bug, it set to different time zone");
+        logger.error("The date has a bug, it set to different time zone after 9pm it shows the next day date");
     }
 
     @And("user sees the Interest at {int} days is {string}")
@@ -107,7 +114,7 @@ public class NewLineOfCredit {
         String actual = createdNewCreditLinePage.getInterestInfo();
         Assert.assertEquals(expected, actual);
         BrowserUtils.takeScreenshot();
-        logger.error("does not work properly");
+        logger.error("In same cases calculation is wrong, so the function does not work properly");
     }
 
     @And("user sees Total Payoff at {int} days is {string}")
@@ -115,6 +122,8 @@ public class NewLineOfCredit {
 
         String actual = createdNewCreditLinePage.getTotalPayoffInfo();
         Assert.assertEquals(expected, actual);
+        logger.error("In same cases calculation is wrong, so the function does not work properly");
+
     }
 
     @When("user choose operation {string} and puts  amount {string} on day {string}")
@@ -148,6 +157,7 @@ public class NewLineOfCredit {
         String actual = createdNewCreditLinePage.getTotalPayoffInfo();
 
         Assert.assertEquals(interest, actual);
+        logger.error("In same cases calculation is wrong, so the function does not work properly");
 
 
     }
