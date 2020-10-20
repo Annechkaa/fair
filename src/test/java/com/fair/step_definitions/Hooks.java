@@ -14,7 +14,7 @@ public   class Hooks {
         Driver.getDriver().get(URL);
         Driver.getDriver().manage().window().maximize();
     }
-/*
+
     @After
    public void tearDown(){
         Driver.closeDriver();
@@ -22,7 +22,7 @@ public   class Hooks {
 
 
 
- */
+
 
 
 }

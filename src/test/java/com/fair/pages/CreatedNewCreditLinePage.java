@@ -2,6 +2,7 @@ package com.fair.pages;
 
 import com.fair.utilities.ConfigurationReader;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -87,23 +88,33 @@ public class CreatedNewCreditLinePage extends BasePage {
         return totalPayoff30DaysInfo.getText();
     }
 
-    public void drawMoney(String type, String amount, String day) {
+    public void moneyOperation(String type, String amount, String day) {
+        Select select = new Select(typeDropdown);
+        wait.until(ExpectedConditions.elementToBeClickable(typeDropdown));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("transaction_type")));
 
+
+        if (type.equals("Draw")) {
+            select.selectByValue(type);
+
+
+        } else if (type.equals("Payment")) {
+            select.selectByValue(type);
+
+        }
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("transaction_amount")));
         amountInputBox.sendKeys(amount);
+
         Select select1 = new Select(appliedDayDropdown);
         select1.selectByValue(day);
+
         saveTransactionButton.click();
         wait.until(ExpectedConditions.visibilityOf(this.amount));
 
 
-    }
-
-    public String getRemainingLimit() {
-        wait.until(ExpectedConditions.visibilityOf(amount));
-        return amount.getText();
 
     }
+
 
     public String getBalance() {
 

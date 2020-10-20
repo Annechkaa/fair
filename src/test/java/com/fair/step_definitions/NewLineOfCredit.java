@@ -3,18 +3,23 @@ package com.fair.step_definitions;
 import com.fair.pages.CreatedNewCreditLinePage;
 import com.fair.pages.HomePage;
 import com.fair.pages.NewLineOfCreditPage;
-import com.fair.utilities.ConfigurationReader;
+import com.fair.utilities.BrowserUtils;
 import com.fair.utilities.Driver;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import javafx.util.converter.LocalDateTimeStringConverter;
 import org.apache.log4j.Logger;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Assert;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 public class NewLineOfCredit {
+    SoftAssertions softAssertions=new SoftAssertions();
 
     HomePage homePage = new HomePage();
     NewLineOfCreditPage newLineOfCreditPage = new NewLineOfCreditPage();
@@ -59,6 +64,7 @@ public class NewLineOfCredit {
 
     @Then("user sees {string} message")
     public void user_sees_message(String message) {
+
         String actual = createdNewCreditLinePage.getSuccessMessage();
         Assert.assertEquals(message, actual);
 
@@ -76,22 +82,30 @@ public class NewLineOfCredit {
     public void userSeesCreditAvailableIsDisplayed(String expected) {
 
         String actual = createdNewCreditLinePage.getCreditAvailableInfo();
-        Assert.assertNotEquals(expected, actual);
-        logger.error("The date has a bug, it set to different time zone");
-       // Assert.assertEquals(expected, actual);
+        softAssertions.assertThat(actual).isEqualTo(expected);
+        BrowserUtils.takeScreenshot();
+        logger.error("credit line does not display correct");
+
 
     }
 
     @And("user sees the correct {string} date")
     public void userSeesTheCorrectDate(String expected) {
+        LocalDate now=LocalDate.now();
+        DateTimeFormatter d= DateTimeFormatter.ofPattern("MMMM dd, yyyy");
+        expected+=now.format(d);
         String actual = createdNewCreditLinePage.getOpenDateInfo();
-        Assert.assertNotEquals(expected, actual);
+        softAssertions.assertThat(actual).isEqualTo(expected);
+        BrowserUtils.takeScreenshot();
+        logger.error("The date has a bug, it set to different time zone");
     }
 
     @And("user sees the Interest at {int} days is {string}")
     public void userSeesTheInterestAtDaysIs(int numberOfDays, String expected) {
         String actual = createdNewCreditLinePage.getInterestInfo();
         Assert.assertEquals(expected, actual);
+        BrowserUtils.takeScreenshot();
+        logger.error("does not work properly");
     }
 
     @And("user sees Total Payoff at {int} days is {string}")
@@ -103,7 +117,7 @@ public class NewLineOfCredit {
 
     @When("user choose operation {string} and puts  amount {string} on day {string}")
     public void userChooseOperationAndPutsAmountOnDay(String type, String amount, String day) {
-        createdNewCreditLinePage.drawMoney(type, amount, day);
+        createdNewCreditLinePage.moneyOperation(type, amount, day);
     }
 
     @Then("users remaining credit limit is {string}")
@@ -137,5 +151,10 @@ public class NewLineOfCredit {
     }
 
 
+    @When("user pay back {string} {string} on day {string}")
+    public void userPayBackOnDay(String type, String amount, String day) {
+
+        createdNewCreditLinePage.moneyOperation(type, amount, day);
+    }
 }
 
